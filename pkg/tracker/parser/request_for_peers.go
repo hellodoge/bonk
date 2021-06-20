@@ -6,12 +6,13 @@ import (
 	"errors"
 	"github.com/hellodoge/bonk/bonk"
 	"github.com/hellodoge/bonk/pkg/tracker/response"
-	bencode "github.com/jackpal/bencode-go"
+	"github.com/hellodoge/bonk/pkg/util/torrent"
+	"github.com/jackpal/bencode-go"
 	"net"
 	"time"
 )
 
-type Parser struct {}
+type Parser struct{}
 
 type trackerResponse struct {
 	Interval uint       `json:"interval"`
@@ -63,7 +64,7 @@ func (r *trackerResponse) toRequestForPeersResponse() (*response.RequestForPeers
 			return nil, newParsingResponseError(ErrNotValidIPFormat)
 		}
 		peers = append(peers, bonk.Peer{
-			ID:   peer.ID,
+			ID:   torrent.StringToPeerID(peer.ID),
 			Addr: addr,
 		})
 	}
@@ -84,7 +85,7 @@ func (r *trackerResponseCompact) toRequestForPeersResponse() (*response.RequestF
 	for offset := 0; offset < len(rawPeers); offset += peerSize {
 		peers = append(peers, bonk.Peer{
 			Addr: net.TCPAddr{
-				IP: rawPeers[offset : offset+net.IPv4len],
+				IP:   rawPeers[offset : offset+net.IPv4len],
 				Port: int(binary.BigEndian.Uint16(rawPeers[offset+net.IPv4len : offset+net.IPv4len+portSize])),
 			},
 		})

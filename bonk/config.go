@@ -3,7 +3,7 @@ package bonk
 import "time"
 
 type Config struct {
-	PeerID         [PeerIdLength]byte
+	PeerID         PeerID
 	Port           uint16
 	TrackerTimeout time.Duration
 	PeerTimeout    time.Duration

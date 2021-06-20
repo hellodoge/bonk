@@ -4,7 +4,9 @@ import "net"
 
 const PeerIdLength = 20
 
+type PeerID [PeerIdLength]byte
+
 type Peer struct {
-	ID string
+	ID   PeerID
 	Addr net.TCPAddr
 }
