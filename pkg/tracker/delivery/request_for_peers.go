@@ -52,13 +52,7 @@ func (d *Delivery) RequestForPeers(downloading *bonk.DownloadingInfo, config *bo
 	if err != nil {
 		err = newMakingRequestError(err)
 		err2 := conn.Body.Close()
-		if err2 != nil {
-			err = paired.Error{
-				Primary:   err,
-				Secondary: err2,
-			}
-		}
-		return nil, err
+		return nil, paired.NewPairedError(err, err2)
 	}
 	return response, conn.Body.Close()
 }

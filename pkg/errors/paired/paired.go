@@ -7,6 +7,18 @@ type Error struct {
 	Secondary error
 }
 
+func NewPairedError(primary, secondary error) error {
+	if primary == nil {
+		return secondary
+	} else if secondary == nil {
+		return primary
+	}
+	return Error{
+		Primary:   primary,
+		Secondary: secondary,
+	}
+}
+
 func (e Error) Error() string {
 	return e.Primary.Error() + "; " + e.Secondary.Error()
 }
