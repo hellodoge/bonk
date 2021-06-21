@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"github.com/hellodoge/bonk/bonk"
-	"github.com/hellodoge/bonk/pkg/logger"
+	"github.com/hellodoge/bonk/pkg/errors/paired"
 	"github.com/hellodoge/bonk/pkg/util"
 	"io"
 	"net/http"
@@ -10,9 +10,7 @@ import (
 	"strconv"
 )
 
-type Delivery struct {
-	logger logger.Logger
-}
+type Delivery struct{}
 
 func buildURL(downloading *bonk.DownloadingInfo, config *bonk.Config) (*url.URL, error) {
 	addr, err := url.Parse(downloading.Torrent.Announce)
@@ -50,15 +48,17 @@ func (d *Delivery) RequestForPeers(downloading *bonk.DownloadingInfo, config *bo
 		}
 		return nil, newMakingRequestError(err)
 	}
-	defer func() {
-		err := conn.Body.Close()
-		if d.logger != nil && err != nil {
-			d.logger.Print(err)
-		}
-	}()
 	response, err := io.ReadAll(conn.Body)
 	if err != nil {
-		return nil, newMakingRequestError(err)
+		err = newMakingRequestError(err)
+		err2 := conn.Body.Close()
+		if err2 != nil {
+			err = paired.Error{
+				Primary:   err,
+				Secondary: err2,
+			}
+		}
+		return nil, err
 	}
-	return response, nil
+	return response, conn.Body.Close()
 }
