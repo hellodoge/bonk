@@ -2,7 +2,7 @@ package parser
 
 import (
 	"errors"
-	"github.com/hellodoge/bonk/pkg/errors/wrapped"
+	"github.com/hellodoge/bonk/internal/errors/wrapped"
 )
 
 var (

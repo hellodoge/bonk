@@ -2,13 +2,13 @@ package delivery
 
 import (
 	"errors"
-	"github.com/hellodoge/bonk/pkg/errors/wrapped"
+	"github.com/hellodoge/bonk/internal/errors/wrapped"
 )
 
 var (
 	ErrParsingTrackerURL = errors.New("error occurred while parsing tracker url")
-	ErrMakingRequest = errors.New("error occurred while making request to tracker")
-	ErrTimeout = errors.New("timeout error while making request to tracker")
+	ErrMakingRequest     = errors.New("error occurred while making request to tracker")
+	ErrTimeout           = errors.New("timeout error while making request to tracker")
 )
 
 func newParsingTrackerURLError(inner error) wrapped.Error {

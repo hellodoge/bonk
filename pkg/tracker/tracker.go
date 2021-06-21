@@ -3,7 +3,7 @@ package tracker
 import (
 	"errors"
 	"github.com/hellodoge/bonk/bonk"
-	"github.com/hellodoge/bonk/pkg/errors/common"
+	"github.com/hellodoge/bonk/internal/errors/common"
 	"github.com/hellodoge/bonk/pkg/tracker/delivery"
 	"github.com/hellodoge/bonk/pkg/tracker/parser"
 	"github.com/hellodoge/bonk/pkg/tracker/response"

@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"github.com/hellodoge/bonk/bonk"
-	"github.com/hellodoge/bonk/pkg/errors/paired"
+	"github.com/hellodoge/bonk/internal/errors/paired"
 	"github.com/hellodoge/bonk/pkg/util"
 	"io"
 	"net/http"
